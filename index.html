@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Registration Form</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+    }
+    .container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    input {
+        width: 100%;
+        padding: 8px;
+        margin: 5px 0;
+        box-sizing: border-box;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .student-list {
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Student Registration Form</h2>
+    <label for="name">Name:</label>
+    <input type="text" id="name" placeholder="Enter your name">
+    <label for="email">Email:</label>
+    <input type="email" id="email" placeholder="Enter your email">
+    <label for="age">Age:</label>
+    <input type="number" id="age" placeholder="Enter your age">
+    <button onclick="registerStudent()">Register</button>
+</div>
+<div class="container student-list">
+    <h2>Registered Students</h2>
+    <ul id="studentList"></ul>
+</div>
+<script>
+    function registerStudent() {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const age = document.getElementById('age').value;
+
+        if (name && email && age) {
+            const student = { name, email, age };
+            let students = JSON.parse(localStorage.getItem('students')) || [];
+            students.push(student);
+            localStorage.setItem('students', JSON.stringify(students));
+            displayStudents();
+        } else {
+            alert('Please fill in all fields');
+        }
+    }
+
+    function displayStudents() {
+        const studentList = document.getElementById('studentList');
+        studentList.innerHTML = '';
+        const students = JSON.parse(localStorage.getItem('students')) || [];
+        students.forEach(student => {
+            const li = document.createElement('li');
+            li.textContent = `Name: ${student.name}, Email: ${student.email}, Age: ${student.age}`;
+            studentList.appendChild(li);
+        });
+    }
+
+    displayStudents();
+</script>
+</body>
+</html>
